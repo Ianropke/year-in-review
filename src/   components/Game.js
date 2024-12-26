@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Note from "./Note";
 import Background from "./Background";
 
@@ -7,7 +7,7 @@ const Game = () => {
   const [visibleNotes, setVisibleNotes] = useState([]); // Notes currently on screen
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(0);
-  const audioRef = useRef(null); // Reference to the audio player
+  const [gameTime, setGameTime] = useState(0); // Tracks elapsed time
 
   // Fetch the beatmap data when the component mounts
   useEffect(() => {
@@ -25,21 +25,23 @@ const Game = () => {
     loadBeatmap();
   }, []);
 
-  // Handle spawning of notes based on the beatmap
+  // Increment game time every 100ms
   useEffect(() => {
     const interval = setInterval(() => {
-      if (audioRef.current) {
-        const currentTime = audioRef.current.currentTime;
-        const upcomingNotes = notes.filter(
-          (note) =>
-            note.time <= currentTime + 1 && note.time > currentTime // Spawn notes just before they are due
-        );
-        setVisibleNotes((prev) => [...prev, ...upcomingNotes]);
-      }
-    }, 100); // Check every 100ms for new notes to spawn
+      setGameTime((prev) => prev + 0.1); // Increment time in seconds
+    }, 100);
 
-    return () => clearInterval(interval);
-  }, [notes]);
+    return () => clearInterval(interval); // Clear interval on component unmount
+  }, []);
+
+  // Handle spawning of notes based on the beatmap
+  useEffect(() => {
+    const upcomingNotes = notes.filter(
+      (note) =>
+        note.time <= gameTime + 1 && note.time > gameTime // Spawn notes just before they are due
+    );
+    setVisibleNotes((prev) => [...prev, ...upcomingNotes]);
+  }, [gameTime, notes]);
 
   // Handle keypresses and check for hits
   const handleKeyPress = (key) => {
@@ -50,14 +52,12 @@ const Game = () => {
     const hitIndex = visibleNotes.findIndex(
       (note) =>
         note.column === column &&
-        Math.abs(note.time - audioRef.current.currentTime) < 0.3 // Within hit window
+        Math.abs(note.time - gameTime) < 0.3 // Within hit window
     );
 
     if (hitIndex !== -1) {
       // Calculate timing accuracy
-      const timingDifference = Math.abs(
-        visibleNotes[hitIndex].time - audioRef.current.currentTime
-      );
+      const timingDifference = Math.abs(visibleNotes[hitIndex].time - gameTime);
 
       if (timingDifference <= 0.1) {
         console.log("Perfect!");
@@ -81,12 +81,10 @@ const Game = () => {
     const listener = (e) => handleKeyPress(e.key);
     window.addEventListener("keydown", listener);
     return () => window.removeEventListener("keydown", listener);
-  }, [visibleNotes]);
+  }, [visibleNotes, gameTime]);
 
   return (
     <div>
-      {/* Correct path for the audio file */}
-      <audio ref={audioRef} src="/jamiroquai.mp3" autoPlay />
       <Background />
       <div className="game-container">
         <div className="scoreboard">
