@@ -10,7 +10,7 @@ const Game = () => {
   const audioRef = useRef(null);
 
   useEffect(() => {
-    // Load beatmap
+    // Load the beatmap from public folder
     const loadBeatmap = async () => {
       const response = await fetch("/beatmap.json");
       const data = await response.json();
@@ -36,7 +36,7 @@ const Game = () => {
     const columnMap = { ArrowLeft: 0, ArrowUp: 1, ArrowRight: 2, ArrowDown: 3 };
     const column = columnMap[key];
     const hitIndex = visibleNotes.findIndex(
-      (note) => note.column === column && note.time <= audioRef.current.currentTime + 0.2
+      (note) => note.column === column && Math.abs(note.time - audioRef.current.currentTime) < 0.3
     );
 
     if (hitIndex !== -1) {
@@ -45,11 +45,9 @@ const Game = () => {
       );
 
       if (timingDifference <= 0.1) {
-        console.log("Perfect!");
         setScore((prev) => prev + 10);
         setCombo((prev) => prev + 1);
       } else {
-        console.log("Good!");
         setScore((prev) => prev + 5);
       }
 
