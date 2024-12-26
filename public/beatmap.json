@@ -1,30 +1,17 @@
-import React, { useState, useEffect } from "react"; 
-
-const Game = () => {
-  const [notes, setNotes] = useState([]);
-
-  useEffect(() => {
-    // Fetch the beatmap.json file from the public folder
-    fetch('/beatmap.json') // Fetch from the public folder
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to load beatmap.json');
-        }
-        return response.json(); // Parse JSON data
-      })
-      .then((data) => {
-        console.log("Loaded beatmap data:", data); // Optional: Debugging
-        setNotes(data.notes); // Set the notes from beatmap.json
-      })
-      .catch((error) => console.error('Error loading beatmap:', error));
-  }, []); // Empty dependency array to run once on component mount
-
-  return (
-    <div>
-      <h1>Game is Running</h1>
-      {/* Additional game rendering logic here */}
-    </div>
-  );
-};
-
-export default Game;
+{
+  "song": "jamiroquai.mp3",
+  "notes": [
+    { "time": 1.0, "column": 0 },
+    { "time": 1.5, "column": 1 },
+    { "time": 2.0, "column": 2 },
+    { "time": 2.5, "column": 3 },
+    { "time": 3.0, "column": 0 },
+    { "time": 3.5, "column": 1 },
+    { "time": 4.0, "column": 2 },
+    { "time": 4.5, "column": 3 },
+    { "time": 5.0, "column": 0 },
+    { "time": 5.5, "column": 2 },
+    { "time": 6.0, "column": 1 },
+    { "time": 6.5, "column": 3 }
+  ]
+}
