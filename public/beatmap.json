@@ -1,8 +1,5 @@
-{
-  "notes": [
-    { "time": 1.0, "column": 0 },
-    { "time": 1.5, "column": 1 },
-    { "time": 2.0, "column": 2 },
-    { "time": 2.5, "column": 3 }
-  ]
-}
+[
+  { "time": 1000, "position": "left" },
+  { "time": 2000, "position": "right" },
+  { "time": 3000, "position": "center" }
+]
