@@ -13,7 +13,7 @@ const Game = () => {
   useEffect(() => {
     const loadBeatmap = async () => {
       try {
-        const response = await fetch("/beatmap.json");
+        const response = await fetch("/beatmap.json"); // Correct path for public folder
         if (!response.ok) throw new Error("Failed to load beatmap.json");
         const data = await response.json();
         setNotes(data.notes); // Load the notes into state
@@ -85,6 +85,7 @@ const Game = () => {
 
   return (
     <div>
+      {/* Correct path for the audio file */}
       <audio ref={audioRef} src="/jamiroquai.mp3" autoPlay />
       <Background />
       <div className="game-container">
