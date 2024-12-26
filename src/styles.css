@@ -1,51 +1,33 @@
-/* Global Styling */
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
-  background: linear-gradient(to bottom, #333, #111);
-  color: white;
-}
-
-/* Intro Screen */
-.intro-screen {
-  text-align: center;
-  padding: 50px;
-}
-
-.game-title {
-  font-size: 48px;
-  color: gold;
-  text-shadow: 0px 0px 8px rgba(255, 223, 0, 0.8);
-  margin-bottom: 20px;
-}
-
-.months-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.month-button {
-  padding: 15px;
-  font-size: 18px;
-  background: #444;
-  color: white;
-  border: 2px solid #666;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.month-button.playable:hover {
-  background: gold;
-  color: black;
-}
-
-.month-button.placeholder {
   background: #222;
-  border-color: #555;
-  cursor: not-allowed;
-  color: #777;
+  color: white;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.note-columns {
+  display: flex;
+  justify-content: center;
+}
+
+.note {
+  width: 60px;
+  height: 20px;
+  background: gold;
+  position: absolute;
+  top: 0;
+  left: 10px;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #000, #555);
 }
