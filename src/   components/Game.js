@@ -3,20 +3,20 @@ import Note from "./Note";
 import Background from "./Background";
 
 const Game = () => {
-  const [notes, setNotes] = useState([]); // Holds the notes from beatmap.json
-  const [visibleNotes, setVisibleNotes] = useState([]); // Notes currently on screen
+  const [notes, setNotes] = useState([]); // Notes from the beatmap
+  const [visibleNotes, setVisibleNotes] = useState([]); // Notes currently on the screen
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(0);
-  const [gameTime, setGameTime] = useState(0); // Tracks elapsed time
+  const [gameTime, setGameTime] = useState(0); // Tracks elapsed game time
 
-  // Fetch the beatmap data when the component mounts
+  // Load the beatmap data when the component mounts
   useEffect(() => {
     const loadBeatmap = async () => {
       try {
-        const response = await fetch("/beatmap.json"); // Correct path for public folder
+        const response = await fetch("/beatmap.json");
         if (!response.ok) throw new Error("Failed to load beatmap.json");
         const data = await response.json();
-        setNotes(data.notes); // Load the notes into state
+        setNotes(data.notes); // Store the notes from the beatmap
       } catch (error) {
         console.error("Error loading beatmap:", error);
       }
@@ -25,30 +25,29 @@ const Game = () => {
     loadBeatmap();
   }, []);
 
-  // Increment game time every 100ms
+  // Increment game time at a steady interval
   useEffect(() => {
     const interval = setInterval(() => {
       setGameTime((prev) => prev + 0.1); // Increment time in seconds
     }, 100);
 
-    return () => clearInterval(interval); // Clear interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
-  // Handle spawning of notes based on the beatmap
+  // Spawn notes based on game time
   useEffect(() => {
     const upcomingNotes = notes.filter(
       (note) =>
-        note.time <= gameTime + 1 && note.time > gameTime // Spawn notes just before they are due
+        note.time <= gameTime + 1 && note.time > gameTime // Spawn notes just before they should appear
     );
     setVisibleNotes((prev) => [...prev, ...upcomingNotes]);
   }, [gameTime, notes]);
 
-  // Handle keypresses and check for hits
+  // Handle key presses and scoring
   const handleKeyPress = (key) => {
-    const columnMap = { ArrowLeft: 0, ArrowUp: 1, ArrowRight: 2, ArrowDown: 3 }; // Map keys to columns
+    const columnMap = { ArrowLeft: 0, ArrowUp: 1, ArrowRight: 2, ArrowDown: 3 };
     const column = columnMap[key];
 
-    // Find the nearest note in the corresponding column
     const hitIndex = visibleNotes.findIndex(
       (note) =>
         note.column === column &&
@@ -56,7 +55,7 @@ const Game = () => {
     );
 
     if (hitIndex !== -1) {
-      // Calculate timing accuracy
+      // Determine timing accuracy
       const timingDifference = Math.abs(visibleNotes[hitIndex].time - gameTime);
 
       if (timingDifference <= 0.1) {
@@ -68,8 +67,7 @@ const Game = () => {
         setScore((prev) => prev + 5);
       }
 
-      // Remove the hit note from the visible notes
-      setVisibleNotes((prev) => prev.filter((_, index) => index !== hitIndex));
+      setVisibleNotes((prev) => prev.filter((_, index) => index !== hitIndex)); // Remove hit note
     } else {
       console.log("Miss!");
       setCombo(0); // Reset combo on miss
