@@ -3,22 +3,26 @@ import IntroScreen from "./components/IntroScreen";
 import Game from "./components/Game";
 
 function App() {
-  const [level, setLevel] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(null);
 
-  const handleLevelSelect = (selectedLevel) => {
-    setLevel(selectedLevel); // Set the selected level (e.g., "November")
+  const handleMonthSelect = (month) => {
+    setSelectedMonth(month);
   };
 
   return (
     <div>
-      {level === null ? (
-        <IntroScreen onSelectLevel={handleLevelSelect} />
+      {selectedMonth === null ? (
+        <IntroScreen onSelectMonth={handleMonthSelect} />
+      ) : selectedMonth === "November" ? (
+        <Game />
       ) : (
-        <Game level={level} />
+        <div>
+          <h1>{selectedMonth} Game Coming Soon!</h1>
+          <button onClick={() => setSelectedMonth(null)}>Back to Main Menu</button>
+        </div>
       )}
     </div>
   );
 }
 
 export default App;
-
