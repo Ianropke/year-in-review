@@ -1,13 +1,30 @@
-useEffect(() => {
-  fetch('/beatmap.json') // Fetch from the public folder
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Failed to load beatmap.json');
-      }
-      return response.json(); // Parse JSON data
-    })
-    .then((data) => {
-      setNotes(data.notes); // Set the notes from beatmap.json
-    })
-    .catch((error) => console.error('Error loading beatmap:', error));
-}, []);
+import React, { useState, useEffect } from "react";
+
+const Game = () => {
+  const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    // Fetch the beatmap.json file from the public folder
+    fetch('/beatmap.json') // Fetch from the public folder
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to load beatmap.json');
+        }
+        return response.json(); // Parse JSON data
+      })
+      .then((data) => {
+        console.log("Loaded beatmap data:", data); // Optional: Debugging
+        setNotes(data.notes); // Set the notes from beatmap.json
+      })
+      .catch((error) => console.error('Error loading beatmap:', error));
+  }, []); // Empty dependency array to run once on component mount
+
+  return (
+    <div>
+      <h1>Game is Running</h1>
+      {/* Additional game rendering logic here */}
+    </div>
+  );
+};
+
+export default Game;
