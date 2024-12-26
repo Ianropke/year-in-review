@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const Note = ({ note }) => {
   const [yPosition, setYPosition] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setYPosition((prevY) => prevY + 5); // Adjust speed as needed
+      setYPosition((prev) => prev + 5); // Adjust fall speed
     }, 50);
+
     return () => clearInterval(interval);
   }, []);
 
@@ -14,11 +15,10 @@ const Note = ({ note }) => {
     <div
       className="note"
       style={{
-        transform: `translateY(${yPosition}px)`
+        transform: `translateY(${yPosition}px)`,
       }}
-    />
+    ></div>
   );
 };
 
 export default Note;
-
