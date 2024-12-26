@@ -1,12 +1,7 @@
-import React from "react";
+ import React from "react";
 
-const Background = () => (
-  <div className="background">
-    <div className="stage">
-      <h1>Rhythm Game</h1>
-    </div>
-    <div className="crowd"></div>
-  </div>
-);
+const Background = () => {
+  return <div style={{ animation: "pulse 3s infinite" }}></div>;
+};
 
 export default Background;
