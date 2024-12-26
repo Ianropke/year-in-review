@@ -1,12 +1,20 @@
 import React from "react";
+import ReactDOM from "react-dom";
+import IntroScreen from "./components/IntroScreen";
 import Game from "./components/Game";
 
-function App() {
+const App = () => {
+  const [startGame, setStartGame] = React.useState(false);
+
   return (
-    <div className="App">
-      <Game />
+    <div>
+      {startGame ? (
+        <Game />
+      ) : (
+        <IntroScreen onStart={() => setStartGame(true)} />
+      )}
     </div>
   );
-}
+};
 
-export default App;
+ReactDOM.render(<App />, document.getElementById("root"));
