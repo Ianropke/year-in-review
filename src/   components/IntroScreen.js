@@ -1,32 +1,12 @@
 import React from "react";
 
-const IntroScreen = ({ onSelectMonth }) => {
-  const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-
+const IntroScreen = ({ onStart }) => {
   return (
-    <div className="intro-screen">
-      <h1 className="game-title">The 12 Months of 2025</h1>
-      <p>Select a month to play its unique game:</p>
-      <div className="months-grid">
-        {months.map((month) => (
-          <button
-            key={month}
-            className={`month-button ${month === "November" ? "playable" : "placeholder"}`}
-            onClick={() => {
-              if (month === "November") {
-                onSelectMonth(month);
-              } else {
-                alert(`${month}'s game is coming soon!`);
-              }
-            }}
-          >
-            {month}
-          </button>
-        ))}
-      </div>
+    <div style={{ textAlign: "center", marginTop: "300px" }}>
+      <h1>Welcome to the Jamiroquai Rhythm Game!</h1>
+      <button onClick={onStart} style={{ fontSize: "20px", padding: "10px 20px" }}>
+        Start Game
+      </button>
     </div>
   );
 };
