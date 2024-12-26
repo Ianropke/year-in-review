@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background: #222;
+  background-color: #222;
   color: white;
 }
 
@@ -18,10 +18,9 @@ body {
 .note {
   width: 60px;
   height: 20px;
-  background: gold;
+  background-color: gold;
   position: absolute;
   top: 0;
-  left: 10px;
 }
 
 .background {
